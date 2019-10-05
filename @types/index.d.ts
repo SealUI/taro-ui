@@ -10,6 +10,7 @@ export { default as AtButton } from './button'
 export { default as AtCard } from './card'
 export { default as AtCheckbox } from './checkbox'
 export { default as AtDrawer } from './drawer'
+export { default as AtFab } from './fab'
 export { default as AtFloatLayout } from './float-layout'
 export { default as AtForm } from './form'
 export { default as AtGrid } from './grid'
@@ -46,6 +47,7 @@ export { AtMessage, message } from './message'
 export { default as AtImagePicker } from './image-picker'
 export { default as AtIndexes } from './indexes'
 export { default as AtRange } from './range'
+export { default as AtFloatButton } from './float-button'
 
 export declare const AtCalendar: ComponentClass<Props>
 

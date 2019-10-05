@@ -12,11 +12,18 @@ export default class AtCountdown extends AtComponent {
     super(...arguments)
     const { day, hours, minutes, seconds } = this.props
     this.seconds = toSeconds(day, hours, minutes, seconds)
+    const {
+      day: _day,
+      hours: _hours,
+      minutes: _minutes,
+      seconds: _seconds
+    } = this.calculateTime()
+
     this.state = {
-      _day: day,
-      _hours: hours,
-      _minutes: minutes,
-      _seconds: seconds
+      _day,
+      _hours,
+      _minutes,
+      _seconds
     }
     this.timer = null
   }
@@ -32,15 +39,25 @@ export default class AtCountdown extends AtComponent {
     }
   }
 
-  countdonwn () {
+  calculateTime () {
     let [day, hours, minutes, seconds] = [0, 0, 0, 0]
 
     if (this.seconds > 0) {
-      day = Math.floor(this.seconds / (60 * 60 * 24))
+      day = this.props.isShowDay ? Math.floor(this.seconds / (60 * 60 * 24)) : 0
       hours = Math.floor(this.seconds / (60 * 60)) - (day * 24)
       minutes = Math.floor(this.seconds / 60) - (day * 24 * 60) - (hours * 60)
       seconds = Math.floor(this.seconds) - (day * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60)
     }
+    return {
+      day,
+      hours,
+      minutes,
+      seconds
+    }
+  }
+
+  countdonwn () {
+    const { day, hours, minutes, seconds } = this.calculateTime()
 
     this.setState({
       _day: day,
@@ -92,7 +109,8 @@ export default class AtCountdown extends AtComponent {
       customStyle,
       format,
       isShowDay,
-      isCard
+      isCard,
+      isShowHour
     } = this.props
     const {
       _day,
@@ -111,7 +129,7 @@ export default class AtCountdown extends AtComponent {
         style={customStyle}
       >
         {isShowDay && <AtCountdownItem num={_day} separator={format.day} /> }
-        <AtCountdownItem num={_hours} separator={format.hours} />
+        {isShowHour && <AtCountdownItem num={_hours} separator={format.hours} /> }
         <AtCountdownItem num={_minutes} separator={format.minutes} />
         <AtCountdownItem num={_seconds} separator={format.seconds} />
       </View>
@@ -124,6 +142,7 @@ AtCountdown.defaultProps = {
   className: '',
   isCard: false,
   isShowDay: false,
+  isShowHour: true,
   format: {
     day: '天',
     hours: '时',
@@ -148,6 +167,7 @@ AtCountdown.propTypes = {
   ]),
   isCard: PropTypes.bool,
   isShowDay: PropTypes.bool,
+  isShowHour: PropTypes.bool,
   format: PropTypes.object,
   day: PropTypes.number,
   hours: PropTypes.number,

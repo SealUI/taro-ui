@@ -13,6 +13,48 @@
         <i class="icon icon-award"></i>
       </div>
       <div class="at-timeline__content">
+        <p class="head">v2.2.0</p>
+        <p class="time">
+          <span>2019-06-12</span>
+        </p>
+        <ul class="content">
+          <li><span>Calendar</span>组件新增仅显示有效时间组功能（<a href="https://github.com/NervJS/taro-ui/issues/527">#527</a>）</li>
+          <li>修复<span>SearchBar</span>输入框文字显示不全的样式问题（<a href="https://github.com/NervJS/taro-ui/issues/539">#539</a>）</li>
+          <li>修复<span>SwipeAction</span>新版本报错问题（<a href="https://github.com/NervJS/taro-ui/issues/574">#574</a>）</li>
+          <li><span>SwipeAction</span>阻止滑动触发默认行为（<a href="https://github.com/NervJS/taro-ui/issues/525">#525</a>）</li>
+          <li>修复<span>Accordion</span>组件折叠后高度仍保留的样式问题（<a href="https://github.com/NervJS/taro-ui/issues/629">#629</a>）</li>
+          <li>修复<span>Typings</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="at-timeline__item at-timeline__item--custom at-timeline__item--error">
+      <div class="at-timeline__tail"></div>
+      <div class="at-timeline__dot">
+        <i class="icon icon-award"></i>
+      </div>
+      <div class="at-timeline__content">
+        <p class="head">v2.1.0</p>
+        <p class="time">
+          <span>2019-04-10</span>
+        </p>
+        <ul class="content">
+          <li>新增<span>Fab</span>浮动按钮组件</li>
+          <li><span>Input</span>组件事件返回值新增当前事件 event</li>
+          <li><span>InputNumber</span>组件增加错误回调事件</li>
+          <li><span>NavBar</span>组件支持自定义字体图标</li>
+          <li><span>SearchBar</span>组件增加清除按钮回调事件</li>
+          <li><span>TabBar</span>组件支持图片图标</li>
+          <li>修复<span>Range</span>的排序问题（<a href="https://github.com/NervJS/taro-ui/issues/481">#481</a>）</li>
+          <li>修复<span>Tabs</span>内容换行的问题（<a href="https://github.com/NervJS/taro-ui/issues/483">#483</a>）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="at-timeline__item at-timeline__item--custom at-timeline__item--error">
+      <div class="at-timeline__tail"></div>
+      <div class="at-timeline__dot">
+        <i class="icon icon-award"></i>
+      </div>
+      <div class="at-timeline__content">
         <p class="head">v2.0.0</p>
         <p class="time">
           <span>2019-02-03</span>
