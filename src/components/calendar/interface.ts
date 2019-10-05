@@ -3,6 +3,8 @@ import Calendar from './types'
 export interface PropsBase {
   format?: string
 
+  validDates?: Array<Calendar.ValidDate>
+
   minDate?: Calendar.DateArg
 
   maxDate?: Calendar.DateArg
@@ -50,6 +52,8 @@ export interface DefaultProps {
   format: string
 
   isSwiper: boolean
+
+  validDates: Array<Calendar.ValidDate>
 
   marks: Array<Calendar.Mark>
 

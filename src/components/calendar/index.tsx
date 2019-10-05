@@ -17,6 +17,7 @@ import AtCalendarController from './controller/index'
 import { DefaultProps, Props, State, PropsWithDefaults } from './interface'
 
 const defaultProps: DefaultProps = {
+  validDates: [],
   marks: [],
   isSwiper: true,
   hideArrow: false,
@@ -121,6 +122,18 @@ export default class AtCalendar extends Taro.Component<Props, Readonly<State>> {
     let end: number
     let start: number
     let generateDateValue: number
+
+    if (!currentDate) {
+      const dayjsStart = dayjs()
+      start = dayjsStart.startOf('day').valueOf()
+      generateDateValue = dayjsStart.startOf('month').valueOf()
+      return {
+        generateDate: generateDateValue,
+        selectedDate: {
+          start: ''
+        }
+      }
+    }
 
     if (isMultiSelect) {
       const { start: cStart, end: cEnd } = currentDate as Calendar.SelectedDate
@@ -269,6 +282,7 @@ export default class AtCalendar extends Taro.Component<Props, Readonly<State>> {
   render () {
     const { generateDate, selectedDate } = this.state
     const {
+      validDates,
       marks,
       format,
       minDate,
@@ -294,6 +308,7 @@ export default class AtCalendar extends Taro.Component<Props, Readonly<State>> {
           onSelectDate={this.handleSelectDate}
         />
         <AtCalendarBody
+          validDates={validDates}
           marks={marks}
           format={format}
           minDate={minDate}

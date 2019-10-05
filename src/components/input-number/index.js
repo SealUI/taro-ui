@@ -42,11 +42,24 @@ initTestEnv()
 class AtInputNumber extends AtComponent {
   handleClick (clickType) {
     const { disabled, value, min, max, step } = this.props
-    if (
-      disabled
-      || (clickType === 'minus' && value <= min)
-      || (clickType === 'plus' && value >= max)
-    ) return
+    const lowThanMin = (clickType === 'minus' && value <= min)
+    const overThanMax = (clickType === 'plus' && value >= max)
+    if (lowThanMin || overThanMax || disabled) {
+      const deltaValue = clickType === 'minus' ? -step : step
+      const errorValue = addNum(value, deltaValue)
+      if (disabled) {
+        this.handleError({
+          type: 'DISABLED',
+          errorValue,
+        })
+      } else {
+        this.handleError({
+          type: lowThanMin ? 'LOW' : 'OVER',
+          errorValue,
+        })
+      }
+      return
+    }
     const deltaValue = clickType === 'minus' ? -step : step
     let newValue = addNum(value, deltaValue)
     newValue = this.handleValue(newValue)
@@ -59,9 +72,17 @@ class AtInputNumber extends AtComponent {
     // 此处不能使用 Math.max，会是字符串变数字，并丢失 .
     if (resultValue > max) {
       resultValue = max
+      this.handleError({
+        type: 'OVER',
+        errorValue: resultValue,
+      })
     }
     if (resultValue < min) {
       resultValue = min
+      this.handleError({
+        type: 'LOW',
+        errorValue: resultValue,
+      })
     }
     resultValue = parseValue(resultValue)
     return resultValue
@@ -79,6 +100,11 @@ class AtInputNumber extends AtComponent {
 
   handleBlur = (...arg) => this.props.onBlur(...arg)
 
+  handleError = errorValue => {
+    if (!this.props.onErrorInput) { return }
+    this.props.onErrorInput(errorValue)
+  }
+
   render () {
     const {
       customStyle,
@@ -89,7 +115,8 @@ class AtInputNumber extends AtComponent {
       type,
       min,
       max,
-      size
+      size,
+      disabledInput
     } = this.props
 
     const inputStyle = {
@@ -106,23 +133,25 @@ class AtInputNumber extends AtComponent {
       'at-input-number--disabled': inputValue >= max || disabled
     })
 
-    return <View className={rootCls} style={customStyle}>
-      <View className={minusBtnCls} onClick={this.handleClick.bind(this, 'minus')}>
-        <Text className='at-icon at-icon-subtract at-input-number__btn-subtract'></Text>
+    return (
+      <View className={rootCls} style={customStyle}>
+        <View className={minusBtnCls} onClick={this.handleClick.bind(this, 'minus')}>
+          <Text className='at-icon at-icon-subtract at-input-number__btn-subtract'></Text>
+        </View>
+        <Input
+          className='at-input-number__input'
+          style={inputStyle}
+          type={type}
+          value={inputValue}
+          disabled={disabledInput || disabled}
+          onInput={this.handleInput}
+          onBlur={this.handleBlur}
+        />
+        <View className={plusBtnCls} onClick={this.handleClick.bind(this, 'plus')}>
+          <Text className='at-icon at-icon-add at-input-number__btn-add'></Text>
+        </View>
       </View>
-      <Input
-        className='at-input-number__input'
-        style={inputStyle}
-        type={type}
-        value={inputValue}
-        disabled={disabled}
-        onInput={this.handleInput}
-        onBlur={this.handleBlur}
-      />
-      <View className={plusBtnCls} onClick={this.handleClick.bind(this, 'plus')}>
-        <Text className='at-icon at-icon-add at-input-number__btn-add'></Text>
-      </View>
-    </View>
+    )
   }
 }
 
@@ -130,6 +159,7 @@ AtInputNumber.defaultProps = {
   customStyle: '',
   className: '',
   disabled: false,
+  disabledInput: false,
   value: 1,
   type: 'number',
   width: 0,
@@ -161,8 +191,10 @@ AtInputNumber.propTypes = {
   max: PropTypes.number,
   step: PropTypes.number,
   size: PropTypes.string,
+  disabledInput: PropTypes.bool,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
+  onErrorInput: PropTypes.func,
 }
 
 export default AtInputNumber

@@ -67,14 +67,16 @@ export default class AtAccordion extends AtComponent {
       title,
       icon,
       hasBorder,
-      open
+      open,
+      note
     } = this.props
     const { wrapperHeight } = this.state
 
     const rootCls = classNames('at-accordion', className)
+    const prefixClass = (icon && icon.prefixClass) || 'at-icon'
     const iconCls = classNames({
-      'at-icon': true,
-      [`at-icon-${icon && icon.value}`]: icon && icon.value,
+      [prefixClass]: true,
+      [`${prefixClass}-${icon && icon.value}`]: icon && icon.value,
       'at-accordion__icon': true,
     })
     const headerCls = classNames('at-accordion__header', {
@@ -99,7 +101,10 @@ export default class AtAccordion extends AtComponent {
     return <View className={rootCls} style={customStyle}>
       <View className={headerCls} onClick={this.handleClick}>
         {icon && icon.value && <Text className={iconCls} style={iconStyle}></Text>}
-        <View className='at-accordion__title'>{title}</View>
+        <View className='at-accordion__info'>
+          <View className='at-accordion__info__title'>{title}</View>
+          <View className='at-accordion__info__note'>{note}</View>
+        </View>
         <View className={arrowCls}>
           <Text className='at-icon at-icon-chevron-down'></Text>
         </View>
@@ -119,6 +124,7 @@ AtAccordion.defaultProps = {
   customStyle: '',
   className: '',
   title: '',
+  note: '',
   icon: {},
   hasBorder: true,
   isAnimation: true,
@@ -137,6 +143,7 @@ AtAccordion.propTypes = {
   open: PropTypes.bool,
   isAnimation: PropTypes.bool,
   title: PropTypes.string,
+  note: PropTypes.string,
   icon: PropTypes.object,
   hasBorder: PropTypes.bool,
   onClick: PropTypes.func,

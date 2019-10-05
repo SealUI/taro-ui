@@ -141,6 +141,44 @@ export default class Index extends Taro.Component {
 
 :::
 
+## 自定义输入框类型
+
+:::demo
+
+```js
+import Taro from '@tarojs/taro'
+import { AtSearchBar } from 'taro-ui'
+
+export default class Index extends Taro.Component {
+  constructor () {
+    super(...arguments)
+    this.state = {
+      value: ''
+    }
+  }
+  onChange (value) {
+    this.setState({
+      value: value
+    })
+  }
+  onActionClick () {
+    console.log('开始搜索')
+  }
+  render () {
+    return (
+      <AtSearchBar
+        inputType='number'
+        value={this.state.value}
+        onChange={this.onChange.bind(this)}
+        onActionClick={this.onActionClick.bind(this)}
+      />
+    )
+  }
+}
+```
+
+:::
+
 ## 参数
 
 | 参数   |  微信小程序 |  h5 | 说明   | 类型    | 可选值 | 默认值   |
@@ -153,13 +191,15 @@ export default class Index extends Taro.Component {
 | disabled | √ | √ | 是否禁止输入 | Boolean  | -  | false |
 | showActionButton | √ | √ | 是否一直显示右侧按钮 | Boolean  | -  | false |
 | actionName | √ | √ | 右侧按钮文案 | String  | -  | '搜索' |
+| inputType | √ | √ | 输入框输入类型 | String | 'text', 'number', 'idcard', 'digit' | 'text' |
 
 ## 事件
 
 | 事件名称 | 微信小程序 |  h5 | 说明          | 返回参数  |
 |-------- |----  | ---- |------------- |---------- |
-| onChange | √ | √ | 输入框值改变时触发的事件，开发者需要通过 onChange 事件来更新 value 值变化，onChange 函数必填 | 输入框当前值 value  |
-| onFocus | √ | √ | 输入框聚焦时触发，height 参数在基础库 1.9.90 起支持 | event  |
-| onBlur | √ | √ | 输入框值失去焦点时触发的事件 | event  |
-| onConfirm | √ | x  | 点击完成按钮时触发。H5 版中目前需借用 Form 组件的onSubmit事件来替代 | event  |
-| onActionClick | √ | √ | 右侧按钮点击触发事件 | event  |
+| onChange | √ | √ | 输入框值改变时触发的事件，开发者需要通过 onChange 事件来更新 value 值变化，onChange 函数必填 | (value:string, event:Object) => void  |
+| onFocus | √ | √ | 输入框聚焦时触发，height 参数在基础库 1.9.90 起支持 | (event:Object) => void  |
+| onClear | √ | √ | 点击清除按钮时触发事件，若不传，则默认传空字符串调用 onChange 函数，Taro UI 2.0.3 起支持 | () => void  |
+| onBlur | √ | √ | 输入框值失去焦点时触发的事件 | () => void  |
+| onConfirm | √ | x  | 点击完成按钮时触发。H5 版中目前需借用 Form 组件的onSubmit事件来替代 | () => void  |
+| onActionClick | √ | √ | 右侧按钮点击触发事件 | () => void  |
